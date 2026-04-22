@@ -1,46 +1,26 @@
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// 🔐 ADMIN AUTH
-if (!isset($_SESSION['is_admin'])) {
-    header("Location: ../pages/login.php");
-    exit();
-}
-?>
-
-<link rel="stylesheet" href="../assets/style.css">
+<?php include "session.php"; ?>
 
 <div class="navbar">
-  <h2 style="color:#8a2be2;">AdrenaX Admin</h2>
+  <h2>AdrenaX</h2>
 
   <div>
-    <a href="dashboard.php">Dashboard</a>
-    <a href="manage_products.php">Products</a>
-    <a href="manage_orders.php">Orders</a>
-    <a href="../pages/home.php">View Site</a>
-    <a href="../pages/logout.php">Logout</a>
-  </div>
-</div>
+    <?php if(isset($_SESSION['user_id'])): ?>
 
-<!-- HTML BELOW -->
+        <?php if($_SESSION['role'] === 'admin'): ?>
+            <a href="/adrenax/admin/dashboard.php">Dashboard</a>
+            <a href="/adrenax/admin/manage_products.php">Products</a>
+            <a href="/adrenax/admin/manage_orders.php">Orders</a>
+        <?php else: ?>
+            <a href="/adrenax/pages/home.php">Home</a>
+            <a href="/adrenax/pages/shop.php">Shop</a>
+            <a href="/adrenax/pages/orders.php">Orders</a>
+            <a href="/adrenax/pages/cart.php">cart</a>
+        <?php endif; ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="../assets/style.css">
-</head>
-<body>
+        <a href="/adrenax/actions/logout.php">Logout</a>
 
-<div class="navbar">
-  <h2>AdrenaX Admin</h2>
-
-  <div>
-    <a href="/adrenax/admin/dashboard.php">Dashboard</a>
-    <a href="/adrenax/admin/products.php">Products</a>
-    <a href="/adrenax/admin/orders.php">Orders</a>
-    <a href="/adrenax/pages/home.php">View Site</a>
-    <a href="/adrenax/pages/logout.php">Logout</a>
+    <?php else: ?>
+        <a href="/adrenax/pages/login.php">Login</a>
+    <?php endif; ?>
   </div>
 </div>
